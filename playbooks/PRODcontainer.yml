@@ -1,0 +1,43 @@
+---
+ - hosts: PROD_Server
+   become: true
+   vars: 
+     docker_username: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          61623131303262363530326430666331653733313934383064643834343437303562346431356438
+          3164303061666264636133656232613536326136366435390a336262353664393831346565326636
+          31633932646466333863376236333036386231613735323639313766633966353233323661653661
+          3237663235333031660a313061656265666437393939623363663664313830656664656565396638
+          3832
+
+     docker_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          38346265653430386365663732633363346162303134316139393038333735613165613765633063
+          6334653833323135316465376266633061633463633563300a313031323166626337306133346563
+          34363462303435383336396235306361323330386666363633313732653632363436313039646664
+          6530656537323061390a646664373830353730373232386163633230663066353530626362313936
+          6562
+   
+     default_container_image: "{{ docker_username }}/pipeline:1.0.11"
+
+   tasks:
+     - name: login to dockerhub
+       command: docker login -u {{ docker_username }} -p {{ docker_password }}
+
+     - name: Stop any container running
+       command: docker stop pet-adoption-container
+       ignore_errors: yes
+
+     - name: Remove stopped container
+       command: docker rm pet-adoption-container
+       ignore_errors: yes
+
+     - name: Remove docker image
+       command: docker rmi {{ default_container_image }}
+       ignore_errors: yes
+
+     - name: Pull default Docker image
+       command: docker pull  {{ default_container_image }}
+
+     - name: Restart a container
+       command: docker run -it -d --name pet-adoption-container -p 8080:8085 {{ default_container_image }}

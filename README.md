@@ -1,2 +1,1 @@
-# My-Pet-Clinic-Project
-This is an ansible auto-discovery project
+An Automation Project Using Jenkins CICD Pipeline
