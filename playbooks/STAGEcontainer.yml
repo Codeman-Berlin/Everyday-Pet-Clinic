@@ -1,0 +1,33 @@
+---
+ - hosts: STAGE_Server
+   become: true
+   vars_files: 
+     - /home/ec2-user/playbooks/vault_cred.yml   
+   vars: 
+     docker_username: \"{{ docker_username }}\"
+
+     docker_password: \"{{ docker_password }}\"
+
+     default_container_image: \"{{ docker_username }}/pipeline:1.0.11\"
+
+   tasks:
+     - name: login to dockerhub
+       command: docker login -u {{ docker_username }} -p {{ docker_password }}
+
+     - name: Stop any container running
+       command: docker stop pet-adoption-container
+       ignore_errors: yes
+
+     - name: Remove stopped container
+       command: docker rm pet-adoption-container
+       ignore_errors: yes
+
+     - name: Remove docker image
+       command: docker rmi {{docker_username}}/pipeline:1.0.11
+       ignore_errors: yes
+
+     - name: Pull default Docker image
+       command: docker pull  {{docker_username}}/pipeline:1.0.11
+
+     - name: Restart a container
+       command: docker run -it -d --name pet-adoption-container -p 8080:8085 {{docker_username}}/pipeline:1.0.11
