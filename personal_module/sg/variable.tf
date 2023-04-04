@@ -39,6 +39,6 @@ variable "all_access" {
   default = "0.0.0.0/0"
 }
 
-variable "personal_addy" {
-  default = "my-laptop-ip"
+variable "laptop_ip" {
+  default = "46.114.2.167/32"
 }

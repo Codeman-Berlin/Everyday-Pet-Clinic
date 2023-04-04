@@ -9,5 +9,5 @@
       ansible.builtin.expect:
        command: ansible-playbook /home/ec2-user/playbooks/PRODcontainer.yml --ask-vault-pass
        responses:
-         Vault password: "{{ vault_pass }}"
+         Vault password: \"{{ vault_pass }}\"
        timeout: 600

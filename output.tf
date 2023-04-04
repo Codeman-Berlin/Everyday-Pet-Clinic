@@ -36,3 +36,7 @@ output "lb_DNS" {
 output "name_servers" {
   value = module.R53.name_Servers
 }
+
+output "stage_lb_dns" {
+  value = module.Stage_App_loadbalancer.lb_DNS
+}

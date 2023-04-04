@@ -136,19 +136,20 @@ module "Ansible" {
   key_name               = module.key_pair.key_pair_name
   vpc_security_group_ids = [module.sg.ansible-sg-id]
   subnet_id              = module.vpc.private_subnets[0]
-  user_data = templatefile("./User-data/Ansible.sh", 
+
+  user_data = templatefile("./User-data/Ansible.sh",
     {
-      STAGEcontainer       = "./playbooks/STAGEcontainer.yml",
-      PRODcontainer        = "./playbooks/PRODcontainer.yml",
       keypair              = "~/keypairs/Codeman",
-      PRODcontainer        = "./playbooks/PRODcontainer.yml",
-      PROD_Auto_discovery  = "./playbooks/PROD_Auto_discovery.yml",
-      PROD_runner          = "./playbooks/PROD_runner.yml",
-      stage_auto_discovery = "./playbooks/stage_auto_discovery.yml",
       STAGEcontainer       = "./playbooks/STAGEcontainer.yml",
-      stage_runner     = "./playbooks/stage_runner.yml",
-      Vault_IP             = "./playbooks/Vault_IP.yml",
-      new_relic_key        = var.new_relic_key
+      stage_auto_discovery = "./playbooks/stage_auto_discovery.yml",
+      stage_runner         = "./playbooks/stage_runner.yml",
+      PRODcontainer        = "./playbooks/PRODcontainer.yml",
+      PROD_Auto_Discovery  = "./playbooks/PROD_Auto_Discovery.yml",
+      PROD_runner          = "./playbooks/PROD_runner.yml",
+      vault_password       = "./playbooks/Vault_IP.yml",
+      new_relic_key        = var.new_relic_key,
+      doc_pass             = var.doc_pass,
+      doc_user             = var.doc_user,
     }
   )
   tags = {
@@ -201,7 +202,7 @@ module "Auto_Scaling_Group" {
   lb_arn              = module.App_loadbalancer.lb_tg
   asg_sg              = module.sg.docker-sg-id
   key_pair            = module.key_pair.key_pair_name
-  ami_source_instance = module.Docker[2].id
+  ami_source_instance = module.Docker[1].id
 }
 
 # Stage Auto Scaling Group

@@ -106,3 +106,11 @@ variable "new_relic_key" {
 variable "domain_name" {
   default = "awaiye.com"
 }
+
+variable "doc_pass" {
+  default = "Ibrahim24."
+}
+
+variable "doc_user" {
+  default ="daicon001"
+}

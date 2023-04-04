@@ -9,5 +9,5 @@
       ansible.builtin.expect:
        command: ansible-playbook -i /etc/ansible/stage_hosts /home/ec2-user/playbooks/STAGEcontainer.yml --ask-vault-pass
        responses:
-         Vault password: "{{ vault_pass }}"
+         Vault password: \"{{ vault_pass }}\"
        timeout: 600
