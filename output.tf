@@ -29,6 +29,10 @@ output "Ansible-ip" {
   value = module.Ansible.private_ip
 }
 
+output "Continuous-ip" {
+  value = module.Cont_Instance.private_ip
+}
+
 output "lb_DNS" {
   value = module.App_loadbalancer.lb_DNS
 }

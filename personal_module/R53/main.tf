@@ -7,7 +7,7 @@ data "aws_route53_zone" "codeman-hosted" {
 resource "aws_route53_record" "codeman_record" {
   zone_id = data.aws_route53_zone.codeman-hosted.zone_id
   name    = var.domain_name
-  type    = "A"
+  type    = var.record_type
 
   alias {
     name                   = var.lb-dns
