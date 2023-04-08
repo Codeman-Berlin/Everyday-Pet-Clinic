@@ -40,5 +40,5 @@ variable "all_access" {
 }
 
 variable "laptop_ip" {
-  default = "46.114.2.167/32"
+  default = "46.1.2.167/32"
 }

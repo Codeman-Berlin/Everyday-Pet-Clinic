@@ -216,33 +216,33 @@ module "Stage_Auto_Scaling_Group" {
   amiLC       = module.Auto_Scaling_Group.ami
 }
 
-# # Database
-# module "db" {
-#   source                 = "terraform-aws-modules/rds/aws"
-#   identifier             = "codemandb"
-#   engine                 = "mysql"
-#   engine_version         = "5.7"
-#   instance_class         = "db.t3.medium"
-#   allocated_storage      = 5
-#   db_name                = "codemanDB"
-#   username               = "admin"
-#   password               = "admin"
-#   port                   = "3306"
-#   vpc_security_group_ids = [module.sg.mysql-sg-id]
-#   tags = {
-#     Owner       = "user"
-#     Environment = "dev"
-#   }
-#   # DB subnet group
-#   create_db_subnet_group = true
-#   subnet_ids             = [module.vpc.private_subnets[0], module.vpc.private_subnets[1]]
-#   # DB parameter group
-#   family = "mysql5.7"
-#   # DB option group
-#   major_engine_version = "5.7"
-#   # Database Deletion Protection
-#   deletion_protection = false
-# }
+# Database
+module "db" {
+  source                 = "terraform-aws-modules/rds/aws"
+  identifier             = "codemandb"
+  engine                 = "mysql"
+  engine_version         = "5.7"
+  instance_class         = "db.t3.medium"
+  allocated_storage      = 5
+  db_name                = "codemanDB"
+  username               = "admin"
+  password               = "admin"
+  port                   = "3306"
+  vpc_security_group_ids = [module.sg.mysql-sg-id]
+  tags = {
+    Owner       = "user"
+    Environment = "dev"
+  }
+  # DB subnet group
+  create_db_subnet_group = true
+  subnet_ids             = [module.vpc.private_subnets[0], module.vpc.private_subnets[1]]
+  # DB parameter group
+  family = "mysql5.7"
+  # DB option group
+  major_engine_version = "5.7"
+  # Database Deletion Protection
+  deletion_protection = false
+}
 
 # AWS Certificate Manager
 module "AWS_ACM" {
@@ -267,16 +267,4 @@ module "R53" {
 
 
 
-# # s3 Bucket & Policy
-# module "s3_bucket_for_logs" {
-#   source = "terraform-aws-modules/s3-bucket/aws"
 
-#   bucket = "codeman-s3-bucket-logs"
-#   acl    = "log-delivery-write"
-
-#   # Allow deletion of non-empty bucket
-#   force_destroy = true
-
-#   attach_elb_log_delivery_policy = true  # Required for ALB logs
-#   attach_lb_log_delivery_policy  = true  # Required for ALB/NLB logs
-# }
